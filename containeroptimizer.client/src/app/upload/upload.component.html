@@ -1,0 +1,43 @@
+<div class="upload-form">
+  <h1>Container Yard Optimizer</h1>
+  <form [formGroup]="form" style="display: flex; flex-direction: column;">
+    <!--<p>
+    <mat-error *ngIf="form.invalid">
+      <strong>Error</strong>
+    </mat-error>
+  </p>-->
+    <!--Container Id-->
+    <mat-form-field>
+      <mat-label>Container Id:</mat-label>
+      <input matInput formControlName="containerId" required
+             placeholder="Insert container Id">
+      <mat-error *ngFor="let error of getErrors(form.get('containerId')!,'Container Id')">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+    <!--Arrival-->
+    <mat-form-field>
+      <mat-label>Arrival Date & Time:</mat-label>
+      <input matInput formControlName="arrival" required
+             placeholder="Choose arrival date and time" [ngxMatDatetimePicker]="picker">
+      <mat-datepicker-toggle matSuffix (click)="picker.open()"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker touchUi="true" #picker>
+      </ngx-mat-datetime-picker>
+      <mat-error *ngFor="let error of getErrors(form.get('arrival')!,'Arrival')">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+    <!--Departure-->
+    <mat-form-field>
+      <mat-label>Departure Date & Time:</mat-label>
+      <input matInput formControlName="departure" required
+             placeholder="Choose departure date and time" [ngxMatDatetimePicker]="picker2">
+      <mat-datepicker-toggle matSuffix (click)="picker2.open()"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker touchUi="true" #picker2>
+      </ngx-mat-datetime-picker>
+      <mat-error *ngFor="let error of getErrors(form.get('departure')!,'Departure')">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
