@@ -3,8 +3,15 @@ export interface Upload {
   containerId: string;
   arrival: Date;
   departure: Date;
-  destination: string;
+  destination: Country;
   weight: number;
   blockId: number;
   stackPosition: number;
+}
+interface Country {
+  name: string;
+  alpha2Code: string;
+  alpha3Code: string;
+  numericCode: string;
+  callingCode: string;
 }

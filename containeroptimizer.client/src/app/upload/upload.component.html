@@ -6,38 +6,64 @@
       <strong>Error</strong>
     </mat-error>
   </p>-->
-    <!--Container Id-->
-    <mat-form-field>
-      <mat-label>Container Id:</mat-label>
-      <input matInput formControlName="containerId" required
-             placeholder="Insert container Id">
-      <mat-error *ngFor="let error of getErrors(form.get('containerId')!,'Container Id')">
-        {{error}}
-      </mat-error>
-    </mat-form-field>
-    <!--Arrival-->
-    <mat-form-field>
-      <mat-label>Arrival Date & Time:</mat-label>
-      <input matInput formControlName="arrival" required
-             placeholder="Choose arrival date and time" [ngxMatDatetimePicker]="picker">
-      <mat-datepicker-toggle matSuffix (click)="picker.open()"></mat-datepicker-toggle>
-      <ngx-mat-datetime-picker touchUi="true" #picker>
-      </ngx-mat-datetime-picker>
-      <mat-error *ngFor="let error of getErrors(form.get('arrival')!,'Arrival')">
-        {{error}}
-      </mat-error>
-    </mat-form-field>
-    <!--Departure-->
-    <mat-form-field>
-      <mat-label>Departure Date & Time:</mat-label>
-      <input matInput formControlName="departure" required
-             placeholder="Choose departure date and time" [ngxMatDatetimePicker]="picker2">
-      <mat-datepicker-toggle matSuffix (click)="picker2.open()"></mat-datepicker-toggle>
-      <ngx-mat-datetime-picker touchUi="true" #picker2>
-      </ngx-mat-datetime-picker>
-      <mat-error *ngFor="let error of getErrors(form.get('departure')!,'Departure')">
-        {{error}}
-      </mat-error>
-    </mat-form-field>
+    <ng-container formArrayName="containers">
+      <div *ngFor="let group of containers.controls; let i = index" [formGroupName]="i" class="form-row">
+        <span class ="index">{{i+1}}</span>
+        <!--Container Id-->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Container Id:</mat-label>
+          <input matInput formControlName="containerId" required
+                 placeholder="Insert container Id">
+          <mat-error *ngFor="let error of getErrors(group.get('containerId')!,'Container Id')">
+            {{error}}
+          </mat-error>
+        </mat-form-field>
+        <!--Weight-->
+        <mat-form-field appearance="fill" class="form-field weight-field">
+          <mat-label>Weight(tons):</mat-label>
+          <input matInput formControlName="weight" required type="number">
+          <mat-error *ngFor="let error of getErrors(group.get('weight')!,'Weight')">
+            {{error}}
+          </mat-error>
+        </mat-form-field>
+
+        <!--Arrival-->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Arrival Date & Time:</mat-label>
+          <input matInput formControlName="arrival" required
+                 placeholder="Choose arrival date and time" [ngxMatDatetimePicker]="picker">
+          <mat-datepicker-toggle matSuffix (click)="picker.open()"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker [touchUi]="true" #picker>
+          </ngx-mat-datetime-picker>
+          <mat-error *ngFor="let error of getErrors(group.get('arrival')!,'Arrival')">
+            {{error}}
+          </mat-error>
+        </mat-form-field>
+        <!--Departure-->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Departure Date & Time:</mat-label>
+          <input matInput formControlName="departure" required
+                 placeholder="Choose departure date and time" [ngxMatDatetimePicker]="picker2">
+          <mat-datepicker-toggle matSuffix (click)="picker2.open()"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker [touchUi]="true" #picker2>
+          </ngx-mat-datetime-picker>
+          <mat-error *ngFor="let error of getErrors(group.get('departure')!,'Departure')">
+            {{error}}
+          </mat-error>
+        </mat-form-field>
+
+        <!--Destination-->
+        <div class="form-field">
+          <mat-select-country formControlName="destination" label="Destination" />
+        </div>
+
+        <div class="remove-button">
+          <button mat-icon-button color="warn" (click)="removeContainer(i)" *ngIf="containers.length > 1">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+    <button mat-raised-button color="primary" (click)="addContainer()" *ngIf="containers.length < 12">Add Container</button>
   </form>
 </div>

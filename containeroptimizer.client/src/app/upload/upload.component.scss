@@ -1,4 +1,25 @@
-mat-form-field {
-  display: block;
-  margin: 10px 0;
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+}
+.form-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.weight-field {
+  flex: 0 0 120px; 
+  min-width: 150px;
+  max-width: 150px;
+}
+
+.index {
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
 }

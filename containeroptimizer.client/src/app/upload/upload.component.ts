@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { Component, OnInit, ViewChild, QueryList } from '@angular/core';
+import { FormArray,FormGroup, FormBuilder,FormControl, Validators, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Upload } from './upload';
 import { BaseFormComponent } from '../base-form.component';
 
@@ -14,50 +14,42 @@ export class UploadComponent extends BaseFormComponent implements OnInit{
   constructor() {
     super();
   }
-  upload?: Upload;
-  selectedDatetime!: FormControl;
-  @ViewChild('picker') picker: any;  
+
+  uploadFormsArray!: FormArray;
 
   ngOnInit() {
-   
     this.form = new FormGroup({
+      containers: new FormArray([this.createContainerGroup()])
+    });
+  }
+
+
+  createContainerGroup(): FormGroup {
+    const group = new FormGroup({
       containerId: new FormControl('', [Validators.required, Validators.maxLength(20), Validators.minLength(8)]),
       arrival: new FormControl('', Validators.required),
       departure: new FormControl('', [Validators.required, this.validateDeparture]),
       destination: new FormControl('', Validators.required),
-      weight: new FormControl('', [Validators.required, Validators.min(0)])
+      weight: new FormControl('', [Validators.required, Validators.min(1)])
+    }, { updateOn: 'blur' });
+    group.get('arrival')?.valueChanges.subscribe(() => {
+      group.get('departure')?.updateValueAndValidity();
     });
-    this.form.get('arrival')?.valueChanges.subscribe(() => {
-      this.form.get('departure')?.updateValueAndValidity();
-    })
+    return group;
   }
-  closePicker() {
-    this.picker.cancel();
+
+  get containers(): FormArray {
+    return this.form.get('containers') as FormArray;
   }
-  private validateDateTime(control: AbstractControl): ValidationErrors | null {
-    //console.log('Control errors:', control.errors);
-    //const value = control.value;
-    ////console.log(value);
-    //if (!value) {
-    //  return { dateTime: true };
-    //}
-    //// If value is not a string or Date, return error
-    //if (typeof value !== 'string' && !(value instanceof Date)) {
-    //  return { dateTime: true };
-    //}
-    //const parsedDate = new Date(value);
-    ////console.log(parsedDate);
-    //if (isNaN(parsedDate.getTime())) {
-    //  return { dateTime: true };
-    //}
-    const value = control.value
-    console.log(value);
-    if (value instanceof Date) {
-      console.log(value.toISOString());
-      console.log(value.toLocaleString());
-    }
-    return null;
+
+  addContainer() {
+    this.containers.push(this.createContainerGroup());
   }
+
+  removeContainer(index: number) {
+    this.containers.removeAt(index);
+  }
+
   private validateDeparture(control: AbstractControl): ValidationErrors | null {
     const arrival = control.parent?.get('arrival')?.value;
     const departure = control.parent?.get('departure')?.value;
@@ -65,8 +57,24 @@ export class UploadComponent extends BaseFormComponent implements OnInit{
     const parsedArrival = new Date(arrival);
     const parsedDeparture = new Date(departure);
     return parsedArrival < parsedDeparture ? null : { departureMoreThanArrival: true };
-  }
-
+  };
   
+  //private validateDateTime(control: AbstractControl): ValidationErrors | null {
+  //  //console.log('Control errors:', control.errors);
+  //  //const value = control.value;
+  //  ////console.log(value);
+  //  //if (!value) {
+  //  //  return { dateTime: true };
+  //  //}
+  //  //// If value is not a string or Date, return error
+  //  //if (typeof value !== 'string' && !(value instanceof Date)) {
+  //  //  return { dateTime: true };
+  //  //}
+  //  //const parsedDate = new Date(value);
+  //  ////console.log(parsedDate);
+  //  //if (isNaN(parsedDate.getTime())) {
+  //  //  return { dateTime: true };
+  //  //}
+  //}
 
 }
