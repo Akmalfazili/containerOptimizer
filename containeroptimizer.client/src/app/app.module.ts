@@ -18,6 +18,7 @@ import { HomeComponent } from './home/home.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { UploadComponent } from './upload/upload.component';
 import { AppRoutingModule } from './app-routing.module';
+import { SummaryComponent } from './summary/summary.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     HomeComponent,
     NavMenuComponent,
-    UploadComponent
+    UploadComponent,
+    SummaryComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, BrowserAnimationsModule,

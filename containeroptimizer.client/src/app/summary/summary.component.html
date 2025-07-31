@@ -1,0 +1,40 @@
+<h2>Submitted Containers</h2>
+
+<table mat-table [dataSource]="uploads" class="mat-elevation-z8 full-width-table">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Id</th>
+    <td mat-cell *matCellDef="let row">{{row.id}}</td>
+  </ng-container>
+  <!-- ContainerId Column -->
+  <ng-container matColumnDef="containerId">
+    <th mat-header-cell *matHeaderCellDef>Container ID</th>
+    <td mat-cell *matCellDef="let row">{{ row.containerId }}</td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef>Weight (Tons)</th>
+    <td mat-cell *matCellDef="let row">{{ row.weight }}</td>
+  </ng-container>
+
+  <!-- Arrival Column -->
+  <ng-container matColumnDef="arrival">
+    <th mat-header-cell *matHeaderCellDef>Arrival</th>
+    <td mat-cell *matCellDef="let row">{{ row.arrival | date:'short' }}</td>
+  </ng-container>
+
+  <!-- Departure Column -->
+  <ng-container matColumnDef="departure">
+    <th mat-header-cell *matHeaderCellDef>Departure</th>
+    <td mat-cell *matCellDef="let row">{{ row.departure | date:'short' }}</td>
+  </ng-container>
+
+  <!-- Destination Column -->
+  <ng-container matColumnDef="destination">
+    <th mat-header-cell *matHeaderCellDef>Destination</th>
+    <td mat-cell *matCellDef="let row">{{ row.destination }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['id','containerId','arrival','departure','destination','weight']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['id','containerId','arrival','departure','destination','weight'];"></tr>
+</table>

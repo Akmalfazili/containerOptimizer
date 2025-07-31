@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, QueryList } from '@angular/core';
 import { FormArray,FormGroup, FormBuilder,FormControl, Validators, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Upload } from './upload';
 import { BaseFormComponent } from '../base-form.component';
-
+import { ShowOnTouchedErrorStateMatcher } from '../error-state-matcher';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -11,10 +12,11 @@ import { BaseFormComponent } from '../base-form.component';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent extends BaseFormComponent implements OnInit{
-  constructor() {
+  constructor(private router: Router) {
     super();
   }
-
+  matcher = new ShowOnTouchedErrorStateMatcher();
+  upload?: Upload[];
   uploadFormsArray!: FormArray;
 
   ngOnInit() {
@@ -43,7 +45,7 @@ export class UploadComponent extends BaseFormComponent implements OnInit{
   }
 
   addContainer() {
-    this.containers.push(this.createContainerGroup());
+    this.containers.push(this.createContainerGroup(), { emitEvent:false });
   }
 
   removeContainer(index: number) {
@@ -57,7 +59,25 @@ export class UploadComponent extends BaseFormComponent implements OnInit{
     const parsedArrival = new Date(arrival);
     const parsedDeparture = new Date(departure);
     return parsedArrival < parsedDeparture ? null : { departureMoreThanArrival: true };
-  };
+  }
+
+  onSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.upload = this.containers.value.map(
+      (container: any, index: number) => ({
+        id: index + 1,
+        containerId: container.containerId,
+        arrival: new Date(container.arrival),
+        departure: new Date(container.departure),
+        weight: Number(container.weight),
+        destination: container.destination.name
+      }));
+    const uploads = this.upload;
+    this.router.navigate(['/summary'], { state: { uploads } });
+  }
   
   //private validateDateTime(control: AbstractControl): ValidationErrors | null {
   //  //console.log('Control errors:', control.errors);
