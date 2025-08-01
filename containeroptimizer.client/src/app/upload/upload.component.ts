@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, QueryList } from '@angular/core';
 import { FormArray,FormGroup, FormBuilder,FormControl, Validators, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Upload } from './upload';
 import { BaseFormComponent } from '../base-form.component';
-import { ShowOnTouchedErrorStateMatcher } from '../error-state-matcher';
 import { Router} from '@angular/router';
 
 @Component({
@@ -15,13 +14,31 @@ export class UploadComponent extends BaseFormComponent implements OnInit{
   constructor(private router: Router) {
     super();
   }
-  matcher = new ShowOnTouchedErrorStateMatcher();
+  
   upload?: Upload[];
   uploadFormsArray!: FormArray;
 
   ngOnInit() {
     this.form = new FormGroup({
       containers: new FormArray([this.createContainerGroup()])
+    });
+
+     //Reset touched and dirty state after the first render
+    setTimeout(() => {
+      this.resetFormState();
+    });
+  }
+
+  private resetFormState() {
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+
+    this.containers.controls.forEach(group => {
+      const fg = group as FormGroup;
+      Object.values(fg.controls).forEach(control => {
+        control.markAsPristine();
+        control.markAsUntouched();
+      });
     });
   }
 
@@ -45,7 +62,16 @@ export class UploadComponent extends BaseFormComponent implements OnInit{
   }
 
   addContainer() {
-    this.containers.push(this.createContainerGroup(), { emitEvent:false });
+    const newGroup = this.createContainerGroup();
+      
+    this.containers.push(newGroup);
+    
+
+    //const fg = newGroup as FormGroup;
+    //Object.values(fg.controls).forEach(control => {
+    //  control.markAsPristine();
+    //  control.markAsUntouched();
+    //});
   }
 
   removeContainer(index: number) {

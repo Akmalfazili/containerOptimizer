@@ -14,9 +14,9 @@ export abstract class BaseFormComponent {
     displayName: string,
     customMessages: { [key: string] :string} |null=null
   ): string[]{
-    if (!control.touched) {
-      return [];
-    }
+    //if (!(control.dirty||control.touched)) {
+    //  return [];
+    //}
     var errors: string[] = [];
     const controlErrors = control.errors || {};
     Object.keys(control.errors || {}).forEach((key) => {

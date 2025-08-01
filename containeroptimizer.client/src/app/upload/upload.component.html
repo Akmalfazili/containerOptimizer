@@ -13,7 +13,7 @@
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Container Id:</mat-label>
           <input matInput formControlName="containerId" required
-                 placeholder="Insert container Id" [errorStateMatcher]="matcher">
+                 placeholder="Insert container Id">
           <mat-error *ngFor="let error of getErrors(group.get('containerId')!,'Container Id')">
             {{error}}
           </mat-error>
@@ -21,7 +21,7 @@
         <!--Weight-->
         <mat-form-field appearance="fill" class="form-field weight-field">
           <mat-label>Weight(tons):</mat-label>
-          <input matInput formControlName="weight" required type="number" [errorStateMatcher]="matcher">
+          <input matInput formControlName="weight" required type="number">
           <mat-error *ngFor="let error of getErrors(group.get('weight')!,'Weight')">
             {{error}}
           </mat-error>
@@ -31,7 +31,7 @@
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Arrival Date & Time:</mat-label>
           <input matInput formControlName="arrival" required
-                 placeholder="Choose arrival date and time" [ngxMatDatetimePicker]="picker" [errorStateMatcher]="matcher">
+                 placeholder="Choose arrival date and time" [ngxMatDatetimePicker]="picker">
           <mat-datepicker-toggle matSuffix (click)="picker.open()"></mat-datepicker-toggle>
           <ngx-mat-datetime-picker [touchUi]="true" #picker>
           </ngx-mat-datetime-picker>
@@ -43,7 +43,7 @@
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Departure Date & Time:</mat-label>
           <input matInput formControlName="departure" required
-                 placeholder="Choose departure date and time" [ngxMatDatetimePicker]="picker2" [errorStateMatcher]="matcher">
+                 placeholder="Choose departure date and time" [ngxMatDatetimePicker]="picker2">
           <mat-datepicker-toggle matSuffix (click)="picker2.open()"></mat-datepicker-toggle>
           <ngx-mat-datetime-picker [touchUi]="true" #picker2>
           </ngx-mat-datetime-picker>
@@ -65,7 +65,7 @@
       </div>
     </ng-container>
     <div class="button-row">
-      <button mat-raised-button color="primary" (click)="addContainer()" *ngIf="containers.length < 12">Add Container</button>
+      <button mat-raised-button color="primary" type="button" (click)="addContainer()" *ngIf="containers.length < 12">Add Container</button>
       <button mat-raised-button color="accent" type="submit">Submit</button>
     </div>
   </form>

@@ -8,6 +8,8 @@ import { Component} from '@angular/core';
 
 export class ShowOnTouchedErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return !!(control && control.invalid && control.touched);
+    if (!control || !control.invalid) return false;
+
+    return control.dirty || ((control.touched && control.invalid) || !control.pristine);
   }
 }
