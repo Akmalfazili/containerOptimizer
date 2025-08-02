@@ -35,9 +35,13 @@ export class SummaryComponent {
 
 
   drop(event: CdkDragDrop<Upload[]>) {
+    if (event.container.data.length >= 3) {
+      return;
+    }
     if (event.previousContainer == event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
+    }
+    else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
