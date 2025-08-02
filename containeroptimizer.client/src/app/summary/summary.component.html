@@ -38,3 +38,42 @@
   <tr mat-header-row *matHeaderRowDef="['id','containerId','weight','arrival','departure','destination']"></tr>
   <tr mat-row *matRowDef="let row; columns: ['id','containerId','weight','arrival','departure','destination'];"></tr>
 </table>
+
+<div class="drag-drop-section">
+  <div cdkDropListGroup class="drag-drop-row">
+    <div class="example-container">
+      <h2>Zone A</h2>
+      <div cdkDropList #blockAList="cdkDropList" [cdkDropListData]="blockA"
+           [cdkDropListConnectedTo]="[blockBList,blockAList]" class="example-list"
+           (cdkDropListDropped)="drop($event)">
+        <div class="example-box" cdkDrag *ngFor="let item of blockA; index as i; trackBy: trackByFn">
+          <span class="index-label">{{i+1}}</span>
+          <span class="container-label">{{item.containerId}}</span>
+        </div>
+
+      </div>
+    </div>
+    <div class="example-container">
+      <h2>Zone B</h2>
+      <div cdkDropList #blockBList="cdkDropList" [cdkDropListData]="blockB"
+           [cdkDropListConnectedTo]="[blockAList,blockBList]" class="example-list"
+           (cdkDropListDropped)="drop($event)">
+        <div class="example-box" cdkDrag *ngFor="let item of blockB; index as i; trackBy: trackByFn">
+          <span class="index-label">{{i+1}}</span>
+          <span class="container-label">{{item.containerId}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="example-container">
+      <h2>Zone C</h2>
+      <div cdkDropList #blockCList="cdkDropList" [cdkDropListData]="blockC"
+           [cdkDropListConnectedTo]="[blockAList,blockBList]" class="example-list"
+           (cdkDropListDropped)="drop($event)">
+        <div class="example-box" cdkDrag *ngFor="let item of blockC; index as i; trackBy: trackByFn">
+          <span class="index-label">{{i+1}}</span>
+          <span class="container-label">{{item.containerId}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

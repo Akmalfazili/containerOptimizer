@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from './angular-material.module';
 import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule, NgxMatDatepickerActions, NgxMatDatepickerApply } from '@angular-material-components/datetime-picker';
@@ -34,7 +35,7 @@ import { SummaryComponent } from './summary/summary.component';
     MatButtonModule, MatIconModule, MatToolbarModule,
     ReactiveFormsModule, AngularMaterialModule, AppRoutingModule,
     NgxMatTimepickerModule, NgxMatDatetimePickerModule, MatDatepickerModule,
-    NgxMatMomentModule, MatSelectCountryModule.forRoot('en')
+    NgxMatMomentModule, MatSelectCountryModule.forRoot('en'), DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

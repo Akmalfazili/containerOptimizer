@@ -5,6 +5,6 @@ export interface Upload {
   departure: Date;
   destination: string;
   weight: number;
-  blockId: number;
+  blockId: string;
   stackPosition: number;
 }
